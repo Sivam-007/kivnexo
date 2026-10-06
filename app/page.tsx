@@ -33,12 +33,13 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-white/[0.08]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-          <a
-            href="#"
-            className="text-xl font-bold tracking-[-0.04em] sm:text-2xl"
-          >
-            Kivnexo<span className="text-emerald-400">.</span>
-          </a>
+          <a href="/" className="flex items-center">
+  <img
+    src="/kivnexo-logo.png"
+    alt="Kivnexo"
+    className="h-10 w-auto"
+  />
+</a>
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-400 sm:flex">
             <a href="#how-it-works" className="transition hover:text-white">
@@ -297,15 +298,15 @@ export default function Home() {
           </div>
 
           <div className="flex gap-5">
-            <a href="#" className="transition hover:text-white">
-              Privacy
-            </a>
-            <a href="#" className="transition hover:text-white">
-              Terms
-            </a>
-            <a href="#" className="transition hover:text-white">
-              Contact
-            </a>
+            <a href="/privacy" className="transition hover:text-white">
+  Privacy
+</a>
+            <a href="/terms" className="transition hover:text-white">
+  Terms
+</a>
+            <a href="/contact" className="transition hover:text-white">
+  Contact
+</a>
           </div>
         </div>
       </footer>
