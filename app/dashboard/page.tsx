@@ -4,29 +4,61 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function DashboardPage() {
-const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [normalBalance, setNormalBalance] = useState<number | null>(null);
+  const [specialBalance, setSpecialBalance] = useState<number | null>(null);
+  const [walletError, setWalletError] = useState("");
 
   useEffect(() => {
-    const getUserEmail = async () => {
-      const { data, error } = await supabase.auth.getUser();
+    const loadDashboard = async () => {
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
 
-      if (!error && data.user) {
-        setUserEmail(data.user.email ?? "");
+      if (userError || !userData.user) {
+        window.location.href = "/login?next=%2Fdashboard";
+        return;
       }
+
+      setUserEmail(userData.user.email ?? "");
+
+      const { data: wallet, error: walletError } = await supabase
+        .from("wallets")
+        .select("normal_balance, special_balance")
+        .eq("user_id", userData.user.id)
+        .maybeSingle();
+
+      if (walletError) {
+        setWalletError("Unable to load wallet. Please refresh and try again.");
+        return;
+      }
+
+      if (!wallet) {
+        setWalletError("Wallet not found. Please contact support.");
+        return;
+      }
+
+      setNormalBalance(Number(wallet.normal_balance));
+      setSpecialBalance(Number(wallet.special_balance));
     };
 
-    getUserEmail();
+    loadDashboard();
   }, []);
-const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
 
-  if (error) {
-    alert("Logout failed. Please try again.");
-    return;
-  }
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
 
-  window.location.href = "/";
-};
+    if (error) {
+      alert("Logout failed. Please try again.");
+      return;
+    }
+
+    window.location.href = "/";
+  };
+
+  const formatBalance = (balance: number | null) =>
+    balance === null
+      ? "Loading..."
+      : `₹${balance.toFixed(2)}`;
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -51,10 +83,9 @@ const handleLogout = async () => {
 
       <section className="mx-auto max-w-6xl px-6 py-10">
         <div className="mb-8">
-      
-      <p className="text-sm text-green-400">
-  Welcome back 👋 {userEmail && `(${userEmail})`}
-</p>
+          <p className="text-sm text-green-400">
+            Welcome back 👋 {userEmail && `(${userEmail})`}
+          </p>
 
           <h1 className="mt-2 text-3xl font-bold">
             Your Dashboard
@@ -65,6 +96,12 @@ const handleLogout = async () => {
           </p>
         </div>
 
+        {walletError && (
+          <p className="mb-5 rounded-lg border border-red-400/30 p-4 text-sm text-red-400">
+            {walletError}
+          </p>
+        )}
+
         <div className="grid gap-5 md:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
             <p className="text-sm text-gray-400">
@@ -72,7 +109,7 @@ const handleLogout = async () => {
             </p>
 
             <h2 className="mt-3 text-4xl font-bold">
-              ₹0.00
+              {formatBalance(normalBalance)}
             </h2>
 
             <p className="mt-2 text-sm text-gray-500">
@@ -86,7 +123,7 @@ const handleLogout = async () => {
             </p>
 
             <h2 className="mt-3 text-4xl font-bold text-green-400">
-              ₹0.00
+              {formatBalance(specialBalance)}
             </h2>
 
             <p className="mt-2 text-sm text-gray-500">
