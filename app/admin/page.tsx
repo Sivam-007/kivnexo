@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import RewardForm from "./RewardForm";
 
 export const dynamic = "force-dynamic";
 
@@ -15,12 +16,13 @@ export default async function AdminPage() {
     redirect("/login?next=%2Fadmin");
   }
 
-  const adminEmail = process.env.KIVNEXO_ADMIN_EMAIL;
+  const { data: adminRecord, error: adminError } = await supabase
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
 
-  if (
-    !adminEmail ||
-    user.email?.toLowerCase() !== adminEmail.toLowerCase()
-  ) {
+  if (adminError || !adminRecord) {
     redirect("/dashboard");
   }
 
@@ -35,15 +37,17 @@ export default async function AdminPage() {
           Welcome, {user.email}
         </p>
 
-        <div className="mt-8 rounded-xl border border-white/10 p-5">
+        <section className="mt-8 rounded-xl border border-white/10 p-5">
           <h2 className="text-xl font-semibold">
             Reward Management
           </h2>
 
-          <p className="mt-2 text-gray-400">
-            Admin access verified. Reward controls will be added next.
+          <p className="mt-2 text-sm text-gray-400">
+            Credit verified rewards to a user wallet.
           </p>
-        </div>
+
+          <RewardForm />
+        </section>
       </div>
     </main>
   );
