@@ -1,3 +1,4 @@
+import Link from "next/link";
 const features = [
   {
     number: "01",
@@ -55,13 +56,13 @@ export default function Home() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#"
+              href="/login"
               className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-300 transition hover:text-white"
             >
               Login
             </a>
             <a
-              href="#"
+              href="/signup"
               className="rounded-lg bg-emerald-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-300"
             >
               Sign up
@@ -95,7 +96,7 @@ export default function Home() {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#"
+                href="/signup"
                 className="inline-flex h-12 items-center justify-center rounded-lg bg-emerald-400 px-6 text-sm font-bold text-black transition hover:bg-emerald-300"
               >
                 Start earning
@@ -281,7 +282,7 @@ export default function Home() {
           </p>
 
           <a
-            href="#"
+            href="/signup"
             className="mt-7 inline-flex h-11 items-center rounded-lg bg-emerald-400 px-6 text-sm font-bold text-black transition hover:bg-emerald-300"
           >
             Create free account
@@ -298,15 +299,15 @@ export default function Home() {
           </div>
 
           <div className="flex gap-5">
-            <a href="/privacy" className="transition hover:text-white">
+            <Link href="/privacy" className="transition hover:text-white">
   Privacy
-</a>
-            <a href="/terms" className="transition hover:text-white">
+</Link>
+            <Link href="/terms" className="transition hover:text-white">
   Terms
-</a>
-            <a href="/contact" className="transition hover:text-white">
+</Link>
+            <Link href="/contact" className="transition hover:text-white">
   Contact
-</a>
+</Link>
           </div>
         </div>
       </footer>
