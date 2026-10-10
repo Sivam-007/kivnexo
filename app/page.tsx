@@ -173,13 +173,14 @@ export default function Home() {
         </div>
       </section>
 
+      
       {/* Why Kivnexo */}
       <section
         id="why-kivnexo"
         className="border-y border-white/[0.08] bg-white/[0.02]"
       >
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:items-center lg:py-28">
-          <div>
+        <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
+          <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
               Why Kivnexo
             </p>
@@ -193,33 +194,9 @@ export default function Home() {
               the requirements, complete it, and track your reward status.
             </p>
           </div>
-
-          <div className="rounded-2xl border border-white/[0.08] bg-[#0b0f15] p-7 sm:p-8">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-5">
-              <span className="text-sm text-zinc-400">Your rewards</span>
-              <span className="text-xs text-emerald-400">Kivnexo</span>
-            </div>
-
-            <div className="py-7">
-              <p className="text-sm text-zinc-500">Available balance</p>
-              <p className="mt-2 text-4xl font-bold tracking-tight">
-                ₹0.00
-              </p>
-              <p className="mt-2 text-xs text-zinc-600">
-                Your balance will appear here after verified activity.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              disabled
-              className="w-full rounded-lg bg-white/[0.06] py-3 text-sm font-semibold text-zinc-500"
-            >
-              Withdraw
-            </button>
-          </div>
         </div>
       </section>
+
 
       {/* FAQ */}
       <section
@@ -289,6 +266,72 @@ export default function Home() {
           </a>
         </div>
       </section>
+
+
+      {/* Available Withdrawal Methods */}
+      <section
+        id="withdrawal-methods"
+        className="border-y border-white/[0.08] bg-white/[0.02]"
+      >
+        <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
+              Rewards & Payouts
+            </p>
+
+            <h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] sm:text-4xl">
+              Available Withdrawal Methods
+            </h2>
+
+            <p className="mt-4 leading-7 text-zinc-400">
+              Choose your preferred way to redeem your eligible Kivnexo rewards.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-12 grid max-w-3xl gap-5 sm:grid-cols-2">
+            {/* UPI */}
+            <div className="rounded-2xl border border-white/[0.10] bg-[#0b0f15] p-7 text-center transition hover:border-emerald-400/40">
+              <div className="flex h-24 items-center justify-center rounded-xl bg-white p-4">
+                <img
+                  src="/upi-logo.png"
+                  alt="UPI"
+                  className="max-h-16 max-w-full object-contain"
+                />
+              </div>
+
+              <h3 className="mt-6 text-xl font-semibold">UPI Withdrawal</h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Request an eligible reward payout to your UPI ID.
+              </p>
+            </div>
+
+            {/* Google Play Gift Card */}
+            <div className="rounded-2xl border border-white/[0.10] bg-[#0b0f15] p-7 text-center transition hover:border-emerald-400/40">
+              <div className="flex h-24 items-center justify-center rounded-xl bg-white p-4">
+                <img
+                  src="/google-play-gift-card.png"
+                  alt="Google Play Gift Card"
+                  className="max-h-16 max-w-full object-contain"
+                />
+              </div>
+
+              <h3 className="mt-6 text-xl font-semibold">
+                Google Play Gift Card
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Request a Google Play gift card code after verification.
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-6 text-center text-xs leading-5 text-zinc-500">
+            Requests are subject to eligibility, verification, and applicable gift card terms.
+          </p>
+        </div>
+      </section>
+
 
       {/* Footer */}
       <footer className="border-t border-white/[0.08]">
