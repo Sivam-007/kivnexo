@@ -17,6 +17,15 @@ export default function DashboardPage() {
   const [showBonusPopup, setShowBonusPopup] = useState(false);
   const [showJoinChannel, setShowJoinChannel] = useState(false);
 
+  
+const [spinning, setSpinning] = useState(false);
+const [hasSpunToday, setHasSpunToday] = useState(false);
+const [spinSlot, setSpinSlot] = useState<number | null>(null);
+const [wheelRotation, setWheelRotation] = useState(0);
+const [spinMessage, setSpinMessage] = useState("");
+const [showSpinPopup, setShowSpinPopup] = useState(false);
+
+
   const whatsappChannelUrl =
     process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL || "";
 
@@ -31,6 +40,32 @@ export default function DashboardPage() {
       }
 
       setUserEmail(userData.user.email ?? "");
+
+      
+const indiaToday = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Kolkata",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+
+const { data: todaysSpin, error: spinHistoryError } = await supabase
+  .from("spin_wheel_spins")
+  .select("id, prize_slot, reward_amount")
+  .eq("user_id", userData.user.id)
+  .eq("spin_date", indiaToday)
+  .maybeSingle();
+
+if (!spinHistoryError && todaysSpin) {
+  setHasSpunToday(true);
+  setSpinSlot(Number(todaysSpin.prize_slot));
+  setSpinMessage(
+    Number(todaysSpin.reward_amount) > 0
+      ? `Today's spin reward: ₹${Number(todaysSpin.reward_amount).toFixed(2)}`
+      : "You've already used today's free spin. Come back tomorrow!"
+  );
+}
+
 
       const { data: wallet, error: loadWalletError } = await supabase
         .from("wallets")
@@ -166,6 +201,77 @@ export default function DashboardPage() {
     }
   };
 
+  
+
+const handleDailySpin = async () => {
+  if (spinning || hasSpunToday) return;
+
+  setSpinning(true);
+  setSpinMessage("");
+
+  try {
+    const { data, error } = await supabase.rpc("spin_wheel_daily");
+
+    if (error) {
+      if (error.message.toLowerCase().includes("daily spin already used")) {
+        setHasSpunToday(true);
+        setSpinMessage("You've already used today's free spin. Come back tomorrow!");
+      } else {
+        setSpinMessage("Unable to spin right now. Please try again later.");
+      }
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      setSpinMessage("We couldn't confirm your spin. Please refresh and check your wallet.");
+      return;
+    }
+
+    const slot = Number(data[0].result_slot);
+    const amount = Number(data[0].result_amount);
+
+    // Database has already selected and recorded the result.
+    // Rotate the wheel to visually reveal that result.
+    
+const slotAngles: Record<number, number> = {
+  1: 180, // ₹0
+  2: 0,   // ₹1
+  3: 300, // ₹2
+  4: 120, // ₹0.50
+  5: 60,  // ₹0
+  6: 240, // ₹5
+};
+
+
+    const currentRotation = wheelRotation % 360;
+    const desiredAngle = slotAngles[slot] ?? 0;
+    const extraAngle = (desiredAngle - currentRotation + 360) % 360;
+
+    setWheelRotation(wheelRotation + 360 * 6 + extraAngle);
+    setSpinSlot(slot);
+
+    await new Promise((resolve) => setTimeout(resolve, 4200));
+
+    setHasSpunToday(true);
+    setSpinMessage(
+      amount > 0
+        ? `Congratulations! You won ₹${amount.toFixed(2)}. It's been added to your Normal Wallet.`
+        : "Better luck next time! You can spin again tomorrow."
+    );
+
+    await refreshWallet();
+  } catch {
+    setSpinMessage(
+      "We couldn't confirm the result. Please refresh and check your wallet."
+    );
+  } finally {
+    setSpinning(false);
+  }
+};
+
+
+
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -290,6 +396,140 @@ export default function DashboardPage() {
             Only redeem codes shared through official Kivnexo channels.
           </p>
         </section>
+
+        
+
+
+{showSpinPopup && (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
+    onClick={() => setShowSpinPopup(false)}
+  >
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="spin-popup-title"
+      className="relative w-full max-w-lg rounded-3xl border border-green-400/40 bg-[#050b08] p-6 text-center shadow-2xl sm:p-8"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <button
+        type="button"
+        onClick={() => setShowSpinPopup(false)}
+        aria-label="Close spin wheel"
+        className="absolute right-4 top-3 text-2xl text-gray-400 hover:text-white"
+      >
+        ×
+      </button>
+
+      <h2 id="spin-popup-title" className="text-2xl font-extrabold">
+        Daily <span className="text-green-400">Spin Wheel</span>
+      </h2>
+
+      <p className="mt-2 text-sm text-gray-400">
+        One free spin every day. Rewards go to your Normal Wallet.
+      </p>
+
+      <div
+        className="relative mx-auto mt-7 aspect-square w-full max-w-[300px] rounded-full border-[7px] border-yellow-400 p-2 shadow-[0_0_35px_rgba(250,204,21,0.22)]"
+
+
+        
+      >
+        
+<div
+  aria-hidden="true"
+  className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2"
+>
+  <div className="h-0 w-0 border-l-[12px] border-r-[12px] border-t-[24px] border-l-transparent border-r-transparent border-t-red-500 drop-shadow-lg" />
+</div>
+
+        <div
+          className="h-full w-full rounded-full"
+          style={{
+            background:
+              "conic-gradient(from -30deg, #16a34a 0deg 60deg, #171717 60deg 120deg, #facc15 120deg 180deg, #171717 180deg 240deg, #facc15 240deg 300deg, #171717 300deg 360deg)",
+            transform: `rotate(${wheelRotation}deg)`,
+            transition: spinning ? "transform 4s cubic-bezier(0.12, 0.75, 0.15, 1)" : "none",
+          }}
+        >
+          <div className="relative h-full w-full">
+            {[
+              { label: "₹1", angle: 0 },
+              { label: "₹2", angle: 60 },
+              { label: "₹5", angle: 120 },
+              { label: "₹0", angle: 180 },
+              { label: "₹0.50", angle: 240 },
+              { label: "₹0", angle: 300 },
+            ].map((item) => (
+              <span
+                key={item.angle}
+                className="absolute left-1/2 top-1/2 text-sm font-extrabold text-white"
+                style={{
+                  transform: `rotate(${item.angle}deg) translateY(-105px) rotate(-${item.angle}deg) translate(-50%, -50%)`,
+                }}
+              >
+                {item.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-yellow-300 bg-green-500 text-xl font-black text-black shadow-lg">
+          SPIN
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => void handleDailySpin()}
+        disabled={spinning || hasSpunToday}
+        className="mt-7 w-full rounded-xl bg-green-400 px-5 py-4 font-bold text-black hover:bg-green-300 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {spinning
+          ? "Processing..."
+          : hasSpunToday
+            ? "Come Back Tomorrow"
+            : "Spin Now"}
+      </button>
+
+      {spinMessage && (
+        <p className="mt-4 text-sm text-gray-300" aria-live="polite">
+          {spinMessage}
+        </p>
+      )}
+
+      <p className="mt-4 text-xs text-gray-500">
+        Rewards are verified securely by Kivnexo.
+      </p>
+    </div>
+  </div>
+)}
+
+
+<section className="mt-8 rounded-2xl border border-green-400/30 bg-gradient-to-br from-green-950/40 to-black p-6 sm:p-8">
+  <div className="grid items-center gap-6 sm:grid-cols-2">
+    <div>
+      <div className="text-4xl text-green-400">🎁</div>
+      <h2 className="mt-3 text-3xl font-extrabold">
+        Daily <span className="text-green-400">Spin Wheel</span>
+      </h2>
+      <p className="mt-3 text-sm leading-6 text-gray-400">
+        Try your luck and win rewards in your Normal Wallet.
+        One free spin every day.
+      </p>
+
+      <button
+        type="button"
+        onClick={() => setShowSpinPopup(true)}
+        className="mt-6 w-full rounded-xl bg-green-400 px-5 py-4 text-lg font-bold text-black transition hover:bg-green-300"
+      >
+        Spin Wheel →
+      </button>
+    </div>
+
+
+  </div>
+</section>
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           <a
