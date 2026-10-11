@@ -16,9 +16,12 @@ export default function SignupPage() {
     setMessage("");
 
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  email,
+  password,
+  options: {
+    emailRedirectTo: "https://kivnexo.vercel.app/dashboard",
+  },
+});
 
     setLoading(false);
 

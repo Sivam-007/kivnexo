@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Kivnexo" }],
   creator: "Kivnexo",
-  metadataBase: new URL("http://localhost:3000"),
+metadataBase: new URL("https://kivnexo.vercel.app"),
   robots: {
     index: true,
     follow: true,
