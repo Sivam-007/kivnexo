@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import RewardForm from "./RewardForm";
+import UsersWallets from "./UsersWallets";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +50,7 @@ export default async function AdminPage() {
           <RewardForm />
         </section>
       </div>
+              <UsersWallets />
     </main>
   );
 }
