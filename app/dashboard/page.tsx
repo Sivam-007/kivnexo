@@ -9,6 +9,15 @@ export default function DashboardPage() {
   const [normalBalance, setNormalBalance] = useState<number | null>(null);
   const [specialBalance, setSpecialBalance] = useState<number | null>(null);
   const [walletError, setWalletError] = useState("");
+const [taskFirstTwo, setTaskFirstTwo] = useState("");
+const [taskLastTwo, setTaskLastTwo] = useState("");
+const [taskProof, setTaskProof] = useState("");
+const [taskProofUrl, setTaskProofUrl] = useState("");
+const [taskSubmitting, setTaskSubmitting] = useState(false);
+const [taskMessage, setTaskMessage] = useState("");
+const [taskError, setTaskError] = useState("");
+const [earningView, setEarningView] = useState<"home" | "categories" | "paytm">("home");
+const [taskName, setTaskName] = useState("");
 
   const [bonusCode, setBonusCode] = useState("");
   const [redeeming, setRedeeming] = useState(false);
@@ -530,18 +539,21 @@ const slotAngles: Record<number, number> = {
 
   </div>
 </section>
+ 
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          <a
-            href="#offers"
-            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"
-          >
-            <h3 className="font-semibold">Earn Rewards</h3>
-            <p className="mt-2 text-sm text-gray-400">
-              Discover available tasks and offers.
-            </p>
-          </a>
-
+        <button
+  type="button"
+  onClick={() => {
+  window.location.href = "/earn";
+}}
+  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left transition hover:border-green-400/40"
+>
+  <h3 className="font-semibold">Start Earning</h3>
+  <p className="mt-2 text-sm text-gray-400">
+    Choose Normal Tasks or Special Tasks.
+  </p>
+</button>
           <a
             href="#transactions"
             className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"

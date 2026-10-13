@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 import RewardForm from "./RewardForm";
 import UsersWallets from "./UsersWallets";
 import Withdrawals from "./Withdrawals";
+import SpecialTasks from "./SpecialTasks";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +51,9 @@ export default async function AdminPage() {
 
           <RewardForm />
         </section>
+<section className="mt-8">
+  <SpecialTasks />
+</section>
       </div>
               <UsersWallets />
               <Withdrawals />
