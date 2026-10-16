@@ -109,7 +109,7 @@ export default function Withdrawals() {
     if (
       action === "reject" &&
       !window.confirm(
-        "Reject this withdrawal? The reserved amount will be refunded to the user's wallet.",
+        "Reject this withdrawal request? No wallet balance will be deducted or refunded.",
       )
     ) {
       return;
@@ -410,7 +410,7 @@ export default function Withdrawals() {
                         }
                         className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
                       >
-                        Reject & Refund
+                        Reject Request
                       </button>
                     </>
                   )}

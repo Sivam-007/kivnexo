@@ -564,15 +564,17 @@ const slotAngles: Record<number, number> = {
             </p>
           </a>
 
-          <a
-            href="#withdraw"
-            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"
-          >
-            <h3 className="font-semibold">Withdraw</h3>
-            <p className="mt-2 text-sm text-gray-400">
-              Withdraw your eligible rewards.
-            </p>
-          </a>
+          
+<a
+  href="/withdraw"
+  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"
+>
+  <h3 className="font-semibold">Withdraw</h3>
+  <p className="mt-2 text-sm text-gray-400">
+    Withdraw your eligible rewards.
+  </p>
+</a>
+
         </div>
 
         <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
