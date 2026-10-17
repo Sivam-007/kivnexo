@@ -108,6 +108,7 @@ export async function GET(request: Request) {
     "already_reversed",
     "reversed",
     "recorded_no_credit",
+            "recovered_pending",
     "unknown_reversal",
   ].includes(result)
 ) {
