@@ -86,7 +86,7 @@ export async function GET(request: Request) {
       },
     });
 
-    const { data, error } = await supabase.rpc("process_cpx_postback", {
+    const { data, error } = await supabase.rpc("process_cpx_postback_v2", {
       p_trans_id: transId,
       p_user_id: userId,
       p_status: Number(statusText),
@@ -101,6 +101,16 @@ export async function GET(request: Request) {
     }
 
     const result = data as string;
+    if (
+  ![
+    "credited",
+    "duplicate",
+    "already_reversed",
+    "reversed",
+    "recorded_no_credit",
+    "unknown_reversal",
+  ].includes(result)
+) {
 
     if (
       ![
