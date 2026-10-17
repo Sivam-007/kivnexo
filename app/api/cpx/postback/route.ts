@@ -10,7 +10,11 @@ function response(message: string, status: number) {
   return NextResponse.json({ message }, { status });
 }
 
-function validHash(transId: string, suppliedHash: string, secret: string) {
+function validHash(
+  transId: string,
+  suppliedHash: string,
+  secret: string
+): boolean {
   const expected = createHash("md5")
     .update(`${transId}-${secret}`)
     .digest("hex");
@@ -40,10 +44,13 @@ export async function GET(request: Request) {
     const amountUsdText = params.get("amount_usd") ?? "";
     const suppliedHash = params.get("hash") ?? "";
 
+    const uuidPattern =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
     if (
       !transId ||
       transId.length > 200 ||
-      !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(userId) ||
+      !uuidPattern.test(userId) ||
       !["1", "2"].includes(statusText) ||
       !["complete", "out", "bonus"].includes(eventType)
     ) {
@@ -86,14 +93,17 @@ export async function GET(request: Request) {
       },
     });
 
-    const { data, error } = await supabase.rpc("process_cpx_postback_v2", {
-      p_trans_id: transId,
-      p_user_id: userId,
-      p_status: Number(statusText),
-      p_event_type: eventType,
-      p_amount_local: amountLocal,
-      p_amount_usd: amountUsd,
-    });
+    const { data, error } = await supabase.rpc(
+      "process_cpx_postback_v2",
+      {
+        p_trans_id: transId,
+        p_user_id: userId,
+        p_status: Number(statusText),
+        p_event_type: eventType,
+        p_amount_local: amountLocal,
+        p_amount_usd: amountUsd,
+      }
+    );
 
     if (error) {
       console.error("CPX database processing failed:", error.message);
@@ -101,29 +111,19 @@ export async function GET(request: Request) {
     }
 
     const result = data as string;
-    if (
-  ![
-    "credited",
-    "duplicate",
-    "already_reversed",
-    "reversed",
-    "recorded_no_credit",
-            "recovered_pending",
-    "unknown_reversal",
-  ].includes(result)
-) {
 
-    if (
-      ![
-        "credited",
-        "duplicate",
-        "already_reversed",
-        "reversed",
-        "recorded_no_credit",
-        "unknown_reversal",
-      ].includes(result)
-    ) {
-      console.error("Unexpected CPX database result.");
+    const acceptedResults = [
+      "credited",
+      "duplicate",
+      "already_reversed",
+      "reversed",
+      "recorded_no_credit",
+      "unknown_reversal",
+      "recovered_pending",
+    ];
+
+    if (!acceptedResults.includes(result)) {
+      console.error("Unexpected CPX database result:", result);
       return response("Unexpected processing result.", 500);
     }
 
