@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+    other: {
+    "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
+  },
 };
 
 export default function RootLayout({
