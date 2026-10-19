@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import OfferwallBanner from "@/components/OfferwallBanner";
 import { supabase } from "@/lib/supabase";
 
 export default function DashboardPage() {
@@ -330,6 +331,7 @@ const slotAngles: Record<number, number> = {
             Complete eligible tasks and earn rewards.
           </p>
         </div>
+        <OfferwallBanner size="300x250" />
 
         {walletError && (
           <p className="mb-5 rounded-lg border border-red-400/30 p-4 text-sm text-red-400">
