@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import OfferwallBanner from "@/components/OfferwallBanner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -106,6 +107,10 @@ export default function LoginPage() {
             </a>
           </p>
         </form>
+
+        <div className="mt-8 flex justify-center">
+          <OfferwallBanner size="300x250" />
+        </div>
       </div>
     </main>
   );

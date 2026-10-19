@@ -1,4 +1,5 @@
 import Link from "next/link";
+import OfferwallBanner from "@/components/OfferwallBanner";
 const features = [
   {
     number: "01",
@@ -173,7 +174,13 @@ export default function Home() {
         </div>
       </section>
 
-      
+            {/* Sponsored Banner */}
+      <section className="border-y border-white/[0.08] bg-white/[0.02]">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
+          <OfferwallBanner size="728x90" />
+        </div>
+      </section>
+
       {/* Why Kivnexo */}
       <section
         id="why-kivnexo"

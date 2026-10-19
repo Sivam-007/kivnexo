@@ -541,9 +541,13 @@ const slotAngles: Record<number, number> = {
 
   </div>
 </section>
- 
 
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+{/* Sponsored Banner - Below Spin Wheel */}
+<div className="mt-8 flex justify-center">
+  <OfferwallBanner size="300x250" />
+</div>
+
+<div className="mt-8 grid gap-5 md:grid-cols-3">
         <button
   type="button"
   onClick={() => {
