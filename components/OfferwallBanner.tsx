@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type OfferwallBannerProps = {
   size?: "300x250" | "468x60" | "728x90";
@@ -16,11 +16,11 @@ const bannerSizes = {
 export default function OfferwallBanner({
   size = "300x250",
 }: OfferwallBannerProps) {
-  useEffect(() => {
-    const container = document.getElementById(
-      `offerwall-banner-${size}`
-    );
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dimensions = bannerSizes[size];
 
+  useEffect(() => {
+    const container = containerRef.current;
     if (!container || container.dataset.loaded === "true") return;
 
     const script = document.createElement("script");
@@ -34,17 +34,16 @@ export default function OfferwallBanner({
     container.appendChild(script);
   }, [size]);
 
-  const dimensions = bannerSizes[size];
-
   return (
     <section className="my-8 w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-3">
       <p className="mb-3 text-xs text-gray-500">Sponsored</p>
-      <div className="flex justify-center">
+
+      <div className="flex w-full justify-center overflow-hidden">
         <div
-          id={`offerwall-banner-${size}`}
+          ref={containerRef}
           className="flex max-w-full justify-center"
           style={{
-            width: dimensions.width,
+            width: `min(100%, ${dimensions.width}px)`,
             minHeight: dimensions.height,
           }}
         />
