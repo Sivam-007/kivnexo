@@ -34,10 +34,14 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+
 other: {
   "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
   "offerwall-verification": "6ad638651c3d199193d19f2a",
+  "clickaine-site-verification":
+    "a3380bb9e7c6220f8044d3238214d05b38590eede1250f11ef540092d6a0765046e3a4be818be95b6e0f1ff24c7a1c4349031e64edf4306dc2ba3c1e8d7ccb3d",
 },
+
 };
 
 export default function RootLayout({
