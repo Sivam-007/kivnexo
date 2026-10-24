@@ -53,6 +53,12 @@ export default function Home() {
             <a href="#faq" className="transition hover:text-white">
               FAQ
             </a>
+            <Link
+  href="/games"
+  className="transition hover:text-emerald-400"
+>
+  Games
+</Link>
           </nav>
 
           <div className="flex items-center gap-2">
