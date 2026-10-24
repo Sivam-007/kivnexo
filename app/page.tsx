@@ -43,7 +43,7 @@ export default function Home() {
   />
 </a>
 
-          <nav className="hidden items-center gap-8 text-sm text-zinc-400 sm:flex">
+          <nav className="flex items-center gap-3 text-xs text-zinc-400 sm:gap-8 sm:text-sm">
             <a href="#how-it-works" className="transition hover:text-white">
               How it works
             </a>
