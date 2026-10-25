@@ -30,6 +30,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Kivnexo" }],
   creator: "Kivnexo",
+  
+  applicationName: "Kivnexo",
+  appleWebApp: {
+    capable: true,
+    title: "Kivnexo",
+    statusBarStyle: "default",
+  },
+
   robots: {
     index: true,
     follow: true,
