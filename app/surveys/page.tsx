@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function SurveysPage() {
   const [surveyUrl, setSurveyUrl] = useState("");
@@ -102,6 +103,7 @@ export default function SurveysPage() {
           )}
         </div>
       </div>
+      <MobileBottomNav />
     </main>
   );
 }

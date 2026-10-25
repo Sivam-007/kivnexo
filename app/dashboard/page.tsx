@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import OfferwallBanner from "@/components/OfferwallBanner";
 import { supabase } from "@/lib/supabase";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -317,13 +318,13 @@ const slotAngles: Record<number, number> = {
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-6 py-10">
+      <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
         <div className="mb-8">
           <p className="text-sm text-green-400">
             Welcome back {userEmail && `(${userEmail})`}
           </p>
 
-          <h1 className="mt-2 text-3xl font-bold">
+          <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
             Your Dashboard
           </h1>
 
@@ -340,7 +341,7 @@ const slotAngles: Record<number, number> = {
         )}
 
         <div className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+          <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
             <p className="text-sm text-gray-400">Normal Wallet</p>
             <h2 className="mt-3 text-4xl font-bold">
               {formatBalance(normalBalance)}
@@ -350,7 +351,7 @@ const slotAngles: Record<number, number> = {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-green-400/20 bg-green-400/[0.04] p-6">
+          <div className="min-w-0 rounded-2xl border border-green-400/20 bg-green-400/[0.04] p-4 sm:p-6">
             <p className="text-sm text-gray-400">Special Rewards</p>
             <h2 className="mt-3 text-4xl font-bold text-green-400">
               {formatBalance(specialBalance)}
@@ -672,6 +673,7 @@ const slotAngles: Record<number, number> = {
           </div>
         </div>
       )}
+      <MobileBottomNav />
     </main>
   );
 }

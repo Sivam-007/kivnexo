@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 type Game = {
   id: string;
@@ -47,7 +48,7 @@ export default function GamesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#070a0f] px-4 py-8 text-white sm:px-8">
+    <main className="min-h-screen bg-[#070a0f] px-4 py-8 pb-24 text-white sm:px-8 md:pb-8">
       <div className="mx-auto max-w-7xl">
         <a
           href="/"
@@ -156,6 +157,7 @@ export default function GamesPage() {
           Game content provided by GamePix. Availability may vary by game.
         </footer>
       </div>
+      <MobileBottomNav />
     </main>
   );
 }

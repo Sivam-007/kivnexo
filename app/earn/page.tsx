@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function EarnPage() {
   const [view, setView] = useState<"categories" | "special" | "paytm">(
@@ -67,7 +68,7 @@ export default function EarnPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-black px-4 py-8 pb-24 text-white sm:px-6 sm:py-10 md:pb-10">
       <div className="mx-auto max-w-5xl">
         <a
           href="/dashboard"
@@ -286,6 +287,7 @@ export default function EarnPage() {
           </section>
         )}
       </div>
+      <MobileBottomNav />
     </main>
   );
 }
