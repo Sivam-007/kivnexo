@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import OfferwallBanner from "@/components/OfferwallBanner";
 import { supabase } from "@/lib/supabase";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import ReferralCoinsCard from "@/components/ReferralCoinsCard";
 
 export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -674,6 +675,7 @@ const slotAngles: Record<number, number> = {
         </div>
       )}
       <MobileBottomNav />
+      <ReferralCoinsCard />
     </main>
   );
 }
