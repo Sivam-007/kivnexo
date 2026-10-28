@@ -191,3 +191,64 @@ summary:focus-visible {
     animation: none;
   }
 }
+
+@keyframes kivnexo-success-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.06) translateY(-8px);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.kivnexo-success {
+  animation: kivnexo-success-pop 650ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kivnexo-success {
+    animation: none;
+  }
+}
+
+@keyframes signup-peek-reaction {
+  0%, 100% {
+    transform: translateX(0) rotate(0);
+  }
+  35% {
+    transform: translateX(-8px) rotate(-4deg);
+  }
+  70% {
+    transform: translateX(5px) rotate(3deg);
+  }
+}
+
+.signup-mascot-email {
+  animation: signup-peek-reaction 500ms ease-in-out;
+}
+
+@keyframes signup-shy-reaction {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-8px) scale(1.04) rotate(-3deg);
+  }
+  70% {
+    transform: translateY(-3px) scale(1.02) rotate(3deg);
+  }
+}
+
+.signup-mascot-shy {
+  animation: signup-shy-reaction 500ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signup-mascot-email,
+  .signup-mascot-shy {
+    animation: none;
+  }
+}
