@@ -21,7 +21,7 @@ const [taskMessage, setTaskMessage] = useState("");
 const [taskError, setTaskError] = useState("");
 const [earningView, setEarningView] = useState<"home" | "categories" | "paytm">("home");
 const [taskName, setTaskName] = useState("");
-
+const [moneyRainKey, setMoneyRainKey] = useState(0);
   const [bonusCode, setBonusCode] = useState("");
   const [redeeming, setRedeeming] = useState(false);
   const [bonusMessage, setBonusMessage] = useState("");
@@ -299,20 +299,26 @@ const slotAngles: Record<number, number> = {
     balance === null ? "Loading..." : `₹${balance.toFixed(2)}`;
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main
+  className="relative min-h-screen overflow-x-clip bg-[#030806] bg-cover bg-center bg-fixed text-white selection:bg-emerald-400/30"
+  style={{
+    backgroundImage:
+      "linear-gradient(rgba(3, 8, 6, 0.45), rgba(3, 8, 6, 0.72)), url('/kivnexo-home-bg.png')",
+  }}
+>
       <header className="border-b border-white/10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <a href="/">
             <img
               src="/kivnexo-logo.png"
               alt="Kivnexo"
-              className="h-10 w-auto"
+               className="block h-10 w-40 object-contain object-left"
             />
           </a>
 
           <button
             onClick={handleLogout}
-            className="rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-red-400 hover:text-red-400"
+            className="shrink-0 whitespace-nowrap rounded-lg border border-white/10 px-4 py-2 text-sm text-gray-300 transition hover:border-red-400 hover:text-red-400"
           >
             Logout
           </button>
@@ -334,7 +340,89 @@ const slotAngles: Record<number, number> = {
           </p>
         </div>
         <OfferwallBanner size="300x250" />
+<section className="relative isolate mt-6 overflow-hidden rounded-3xl border border-emerald-400/25 bg-gradient-to-br from-emerald-950 via-[#06110d] to-black p-5 sm:p-8">
+  <style>{`
+    @keyframes kivnexoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
 
+    @keyframes kivnexoCoinFall {
+      0% { transform: translateY(-65px) rotate(0deg); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(280px) rotate(300deg); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .kivnexo-float, .kivnexo-rain-coin {
+        animation: none !important;
+      }
+    }
+  `}</style>
+
+  <div
+    aria-hidden="true"
+    key={moneyRainKey}
+    className="pointer-events-none absolute inset-0 overflow-hidden"
+  >
+    {Array.from({ length: 12 }, (_, index) => (
+      <span
+        key={`${moneyRainKey}-${index}`}
+        className="kivnexo-rain-coin absolute top-0 text-xl sm:text-2xl"
+        style={{
+          left: `${5 + ((index * 23) % 90)}%`,
+          animation: `kivnexoCoinFall ${2.2 + (index % 4) * 0.45}s ${
+            (index % 6) * 0.25
+          }s ease-in infinite`,
+        }}
+      >
+        {index % 3 === 0 ? "💸" : "🪙"}
+      </span>
+    ))}
+  </div>
+
+  <div className="relative z-10 grid items-center gap-5 sm:grid-cols-[1fr_0.85fr]">
+    <div>
+      <span className="inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+        KIVNEXO REWARDS
+      </span>
+
+      <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
+        Make It Rain!
+        <span className="mt-1 block text-emerald-400">
+          Earn. Celebrate. Repeat.
+        </span>
+      </h2>
+
+      <p className="mt-3 max-w-md text-sm leading-6 text-gray-300">
+        Explore eligible tasks, discover rewards and collect your
+        Kivnexo Coins.
+      </p>
+
+      <button
+        type="button"
+        onClick={() => setMoneyRainKey((current) => current + 1)}
+        className="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-400 px-5 py-3 font-bold text-black transition hover:bg-emerald-300 active:scale-95"
+      >
+        🪙 Make It Rain!
+      </button>
+    </div>
+
+    <div className="flex justify-center">
+      <img
+        src="/Joyful%20Neon%20Fox%20Money%20Rain.webp"
+        alt="Kivnexo mascot celebrating with coins and money"
+        width={480}
+        height={480}
+        fetchPriority="high"
+        className="kivnexo-float h-auto max-h-72 w-full max-w-[340px] object-contain drop-shadow-[0_0_30px_rgba(16,185,129,0.25)] sm:max-h-96 sm:max-w-[400px]"
+        style={{
+          animation: "kivnexoFloat 3.5s ease-in-out infinite",
+        }}
+      />
+    </div>
+  </div>
+</section>
         {walletError && (
           <p className="mb-5 rounded-lg border border-red-400/30 p-4 text-sm text-red-400">
             {walletError}
@@ -342,30 +430,64 @@ const slotAngles: Record<number, number> = {
         )}
 
         <div className="grid gap-5 md:grid-cols-2">
-          <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
-            <p className="text-sm text-gray-400">Normal Wallet</p>
-            <h2 className="mt-3 text-4xl font-bold">
-              {formatBalance(normalBalance)}
-            </h2>
-            <p className="mt-2 text-sm text-gray-500">
-              Available from regular offers and bonus codes
-            </p>
-          </div>
+          <div className="relative min-w-0 overflow-hidden rounded-2xl border border-emerald-400/50 bg-[#06130f]/40 p-5 shadow-xl backdrop-blur-md transition duration-300 hover:border-emerald-300 sm:p-7">
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-emerald-400/15 blur-3xl"
+  />
 
-          <div className="min-w-0 rounded-2xl border border-green-400/20 bg-green-400/[0.04] p-4 sm:p-6">
-            <p className="text-sm text-gray-400">Special Rewards</p>
-            <h2 className="mt-3 text-4xl font-bold text-green-400">
-              {formatBalance(specialBalance)}
-            </h2>
-            <p className="mt-2 text-sm text-gray-500">
-              Rewards from eligible special tasks
-            </p>
-          </div>
+  <div className="relative flex items-start justify-between gap-3">
+    <div>
+      <p className="text-sm font-semibold tracking-wide text-emerald-200">
+        Normal Wallet
+      </p>
+
+      <h2 className="mt-3 break-words text-3xl font-extrabold text-white sm:text-4xl">
+        {formatBalance(normalBalance)}
+      </h2>
+
+      <p className="mt-3 text-sm leading-6 text-gray-300">
+        Available from regular offers and bonus codes
+      </p>
+    </div>
+
+    <div className="shrink-0 rounded-xl border border-emerald-300/20 bg-emerald-400/10 p-3">
+      <span className="text-2xl" aria-hidden="true">₹</span>
+    </div>
+  </div>
+</div>
+
+          <div className="relative min-w-0 overflow-hidden rounded-2xl border border-green-400/50 bg-[#06130f]/40 p-5 shadow-xl backdrop-blur-md transition duration-300 hover:border-green-300 sm:p-7">
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-green-400/15 blur-3xl"
+  />
+
+  <div className="relative flex items-start justify-between gap-3">
+    <div>
+      <p className="text-sm font-semibold tracking-wide text-green-200">
+        Special Rewards
+      </p>
+
+      <h2 className="mt-3 break-words text-3xl font-extrabold text-emerald-300 sm:text-4xl">
+        {formatBalance(specialBalance)}
+      </h2>
+
+      <p className="mt-3 text-sm leading-6 text-gray-300">
+        Rewards from eligible special tasks
+      </p>
+    </div>
+
+    <div className="shrink-0 rounded-xl border border-green-300/20 bg-green-400/10 p-3">
+      <span className="text-2xl" aria-hidden="true">✦</span>
+    </div>
+  </div>
+</div>
         </div>
 
         <section
           id="bonus-code"
-          className="mt-8 rounded-2xl border border-green-400/30 bg-green-400/[0.04] p-6"
+          className="mt-8 rounded-2xl border border-green-400/30 bg-black/30 backdrop-blur-sm p-6"
         >
           <h2 className="text-xl font-bold">
             Have a Bonus Code?
@@ -415,103 +537,165 @@ const slotAngles: Record<number, number> = {
 
 {showSpinPopup && (
   <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
+    className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-3 backdrop-blur-md sm:p-6"
     onClick={() => setShowSpinPopup(false)}
   >
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="spin-popup-title"
-      className="relative w-full max-w-lg rounded-3xl border border-green-400/40 bg-[#050b08] p-6 text-center shadow-2xl sm:p-8"
+      className="relative my-auto w-full max-w-lg overflow-hidden rounded-3xl border border-emerald-400/40 bg-gradient-to-b from-[#10251d] via-[#07120e] to-black p-5 text-center shadow-[0_0_60px_rgba(16,185,129,0.15)] sm:p-8"
       onClick={(event) => event.stopPropagation()}
     >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"
+      />
+
       <button
         type="button"
         onClick={() => setShowSpinPopup(false)}
         aria-label="Close spin wheel"
-        className="absolute right-4 top-3 text-2xl text-gray-400 hover:text-white"
+        className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-2xl text-gray-300 transition hover:bg-white/10 hover:text-white"
       >
         ×
       </button>
 
-      <h2 id="spin-popup-title" className="text-2xl font-extrabold">
-        Daily <span className="text-green-400">Spin Wheel</span>
+      <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-400">
+        KIVNEXO REWARDS
+      </p>
+
+      <h2
+        id="spin-popup-title"
+        className="mt-2 text-2xl font-black sm:text-3xl"
+      >
+        Daily <span className="text-emerald-400">Spin Wheel</span>
       </h2>
 
-      <p className="mt-2 text-sm text-gray-400">
+      <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-400">
         One free spin every day. Rewards go to your Normal Wallet.
       </p>
 
-      <div
-        className="relative mx-auto mt-7 aspect-square w-full max-w-[300px] rounded-full border-[7px] border-yellow-400 p-2 shadow-[0_0_35px_rgba(250,204,21,0.22)]"
-
-
-        
-      >
-        
-<div
-  aria-hidden="true"
-  className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2"
->
-  <div className="h-0 w-0 border-l-[12px] border-r-[12px] border-t-[24px] border-l-transparent border-r-transparent border-t-red-500 drop-shadow-lg" />
-</div>
+      <div className="relative mx-auto mt-8 w-full max-w-[310px]">
+        <div
+          aria-hidden="true"
+          className="absolute -inset-3 rounded-full bg-emerald-400/10 blur-xl"
+        />
 
         <div
-          className="h-full w-full rounded-full"
-          style={{
-            background:
-              "conic-gradient(from -30deg, #16a34a 0deg 60deg, #171717 60deg 120deg, #facc15 120deg 180deg, #171717 180deg 240deg, #facc15 240deg 300deg, #171717 300deg 360deg)",
-            transform: `rotate(${wheelRotation}deg)`,
-            transition: spinning ? "transform 4s cubic-bezier(0.12, 0.75, 0.15, 1)" : "none",
-          }}
-        >
-          <div className="relative h-full w-full">
-            {[
-              { label: "₹1", angle: 0 },
-              { label: "₹2", angle: 60 },
-              { label: "₹5", angle: 120 },
-              { label: "₹0", angle: 180 },
-              { label: "₹0.50", angle: 240 },
-              { label: "₹0", angle: 300 },
-            ].map((item) => (
-              <span
-                key={item.angle}
-                className="absolute left-1/2 top-1/2 text-sm font-extrabold text-white"
-                style={{
-                  transform: `rotate(${item.angle}deg) translateY(-105px) rotate(-${item.angle}deg) translate(-50%, -50%)`,
-                }}
-              >
-                {item.label}
-              </span>
-            ))}
+          aria-hidden="true"
+          className="absolute -inset-2 rounded-full border-4 border-yellow-500/40 shadow-[0_0_25px_rgba(234,179,8,0.18)]"
+        />
+
+        <div className="relative aspect-square rounded-full border-[7px] border-[#d4a72c] bg-[#161616] p-2 shadow-[inset_0_0_0_3px_#704d0c,0_12px_0_#51380b,0_18px_30px_rgba(0,0,0,0.7)]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-1 z-20 rounded-full border border-yellow-200/50"
+          />
+
+          <div
+            className="relative h-full w-full overflow-hidden rounded-full border-2 border-yellow-300/70"
+            style={{
+              background:
+                "conic-gradient(from -30deg, #047857 0deg 60deg, #111827 60deg 120deg, #ca8a04 120deg 180deg, #111827 180deg 240deg, #047857 240deg 300deg, #111827 300deg 360deg)",
+              transform: `rotate(${wheelRotation}deg)`,
+              transition: spinning
+                ? "transform 4s cubic-bezier(0.12, 0.75, 0.15, 1)"
+                : "none",
+              boxShadow:
+                "inset 0 0 18px rgba(0,0,0,0.75), inset 0 0 3px 2px rgba(255,215,0,0.35)",
+            }}
+          >
+            <div className="relative h-full w-full">
+              {[
+                { label: "₹1", angle: 0 },
+                { label: "₹2", angle: 60 },
+                { label: "₹5", angle: 120 },
+                { label: "₹0", angle: 180 },
+                { label: "₹0.50", angle: 240 },
+                { label: "₹0", angle: 300 },
+              ].map((item) => (
+                <span
+                  key={item.angle}
+                  className="absolute left-1/2 top-1/2 rounded-lg border border-yellow-200/30 bg-black/25 px-2 py-1 text-sm font-black text-white drop-shadow-md sm:text-base"
+                  style={{
+                    transform: `rotate(${item.angle}deg) translateY(-105px) rotate(-${item.angle}deg) translate(-50%, -50%)`,
+                  }}
+                >
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 z-30 flex h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-yellow-200 bg-gradient-to-br from-emerald-300 via-emerald-500 to-emerald-900 text-xs font-black tracking-wider text-black shadow-[0_0_18px_rgba(250,204,21,0.45)] sm:h-20 sm:w-20 sm:text-sm"
+          >
+            SPIN
           </div>
         </div>
 
-        <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-yellow-300 bg-green-500 text-xl font-black text-black shadow-lg">
-          SPIN
+        <div
+          aria-hidden="true"
+          className="absolute left-1/2 top-[-19px] z-40 -translate-x-1/2"
+        >
+          <div className="relative flex h-12 w-9 items-start justify-center">
+            <div className="absolute top-0 h-5 w-5 rounded-full border-2 border-yellow-100 bg-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
+            <div className="mt-3 h-0 w-0 border-l-[16px] border-r-[16px] border-t-[29px] border-l-transparent border-r-transparent border-t-yellow-400 drop-shadow-[0_4px_3px_rgba(0,0,0,0.7)]" />
+          </div>
         </div>
       </div>
+
+      <p className="mt-7 text-xs font-medium tracking-wide text-gray-500">
+        {hasSpunToday
+          ? "YOUR DAILY SPIN IS COMPLETE"
+          : "YOUR NEXT REWARD IS ONE SPIN AWAY"}
+      </p>
 
       <button
         type="button"
         onClick={() => void handleDailySpin()}
         disabled={spinning || hasSpunToday}
-        className="mt-7 w-full rounded-xl bg-green-400 px-5 py-4 font-bold text-black hover:bg-green-300 disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-4 w-full rounded-xl border border-emerald-200/30 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500 px-5 py-4 font-extrabold text-black shadow-[0_5px_0_#047857,0_10px_25px_rgba(16,185,129,0.15)] transition hover:brightness-110 active:translate-y-1 active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
       >
         {spinning
-          ? "Processing..."
+          ? "Spinning..."
           : hasSpunToday
             ? "Come Back Tomorrow"
-            : "Spin Now"}
+            : "SPIN NOW"}
       </button>
 
       {spinMessage && (
-        <p className="mt-4 text-sm text-gray-300" aria-live="polite">
-          {spinMessage}
-        </p>
+        <div
+          aria-live="polite"
+          className="mt-5 overflow-hidden rounded-2xl border border-emerald-400/30 bg-emerald-400/[0.07] p-4"
+        >
+          <img
+            src="/Neon%20Fox%20Victory%20Celebration.webp"
+            alt="Kivnexo reward celebration mascot"
+            width={130}
+            height={130}
+            loading="lazy"
+            className="mx-auto h-24 w-24 object-contain sm:h-28 sm:w-28"
+          />
+
+          <p className="mt-2 text-lg font-extrabold text-emerald-300">
+            {spinMessage.includes("Congratulations") ||
+            spinMessage.includes("Today's spin reward")
+              ? "Congratulations!"
+              : spinMessage.includes("Better luck")
+                ? "Better Luck Next Time!"
+                : "Spin Wheel Update"}
+          </p>
+
+          <p className="mt-2 text-sm leading-6 text-gray-300">
+            {spinMessage}
+          </p>
+        </div>
       )}
 
-      <p className="mt-4 text-xs text-gray-500">
+      <p className="mt-5 text-xs text-gray-500">
         Rewards are verified securely by Kivnexo.
       </p>
     </div>
@@ -519,14 +703,23 @@ const slotAngles: Record<number, number> = {
 )}
 
 
-<section className="mt-8 rounded-2xl border border-green-400/30 bg-gradient-to-br from-green-950/40 to-black p-6 sm:p-8">
-  <div className="grid items-center gap-6 sm:grid-cols-2">
+<section className="relative mt-8 overflow-hidden rounded-3xl border border-emerald-400/30 bg-gradient-to-br from-[#071a12]/90 via-black/75 to-[#052e22]/80 p-5 shadow-xl backdrop-blur-md sm:p-8">
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"
+  />
+
+  <div className="relative grid items-center gap-6 sm:grid-cols-[1fr_0.8fr] sm:gap-8">
     <div>
-      <div className="text-4xl text-green-400">🎁</div>
-      <h2 className="mt-3 text-3xl font-extrabold">
-        Daily <span className="text-green-400">Spin Wheel</span>
+      <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 text-3xl">
+        🎁
+      </div>
+
+      <h2 className="mt-4 text-2xl font-black sm:text-3xl">
+        Daily <span className="text-emerald-400">Spin Wheel</span>
       </h2>
-      <p className="mt-3 text-sm leading-6 text-gray-400">
+
+      <p className="mt-3 max-w-md text-sm leading-6 text-gray-300">
         Try your luck and win rewards in your Normal Wallet.
         One free spin every day.
       </p>
@@ -534,13 +727,26 @@ const slotAngles: Record<number, number> = {
       <button
         type="button"
         onClick={() => setShowSpinPopup(true)}
-        className="mt-6 w-full rounded-xl bg-green-400 px-5 py-4 text-lg font-bold text-black transition hover:bg-green-300"
+        className="mt-6 w-full rounded-xl border border-emerald-200/30 bg-gradient-to-r from-emerald-400 to-green-500 px-5 py-4 font-extrabold text-black shadow-[0_4px_0_#047857] transition hover:brightness-110 active:translate-y-1 active:shadow-none sm:max-w-sm"
       >
         Spin Wheel →
       </button>
     </div>
 
+    <div className="flex justify-center">
+      <div className="relative w-full max-w-[230px]">
+        <div className="absolute inset-3 rounded-full bg-emerald-400/20 blur-2xl" />
 
+        <img
+          src="/Neon%20Spin%20%26%20Win%20Mascot%20Celebration.webp"
+          alt="Kivnexo Spin and Win mascot"
+          width={300}
+          height={300}
+          loading="lazy"
+          className="relative h-auto w-full object-contain drop-shadow-[0_0_25px_rgba(16,185,129,0.2)]"
+        />
+      </div>
+    </div>
   </div>
 </section>
 
@@ -555,7 +761,7 @@ const slotAngles: Record<number, number> = {
   onClick={() => {
   window.location.href = "/earn";
 }}
-  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left transition hover:border-green-400/40"
+  className="rounded-2xl border border-white/20 bg-white/[0.08] backdrop-blur-sm p-6 text-left transition hover:border-green-400/40"
 >
   <h3 className="font-semibold">Start Earning</h3>
   <p className="mt-2 text-sm text-gray-400">
@@ -564,7 +770,7 @@ const slotAngles: Record<number, number> = {
 </button>
           <a
             href="#transactions"
-            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"
+            className="rounded-2xl border border-white/20 bg-white/[0.08] backdrop-blur-sm p-6 transition hover:border-green-400/40"
           >
             <h3 className="font-semibold">Transactions</h3>
             <p className="mt-2 text-sm text-gray-400">
@@ -575,7 +781,7 @@ const slotAngles: Record<number, number> = {
           
 <a
   href="/withdraw"
-  className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-green-400/40"
+  className="rounded-2xl border border-white/20 bg-white/[0.08] backdrop-blur-sm p-6 transition hover:border-green-400/40"
 >
   <h3 className="font-semibold">Withdraw</h3>
   <p className="mt-2 text-sm text-gray-400">
@@ -585,7 +791,7 @@ const slotAngles: Record<number, number> = {
 
         </div>
 
-        <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.07] p-6">
           <h2 className="text-xl font-semibold">
             How your rewards work
           </h2>
@@ -674,6 +880,33 @@ const slotAngles: Record<number, number> = {
           </div>
         </div>
       )}
+      <section className="mt-8 overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-r from-emerald-950/50 to-black p-4 sm:p-6">
+  <div className="flex items-center gap-4">
+    <img
+      src="/Winking%20Fox%20with%20Golden%20K%20Coin.webp"
+      alt="Kivnexo mascot holding a golden coin"
+      width={180}
+      height={180}
+      loading="lazy"
+      className="h-28 w-28 shrink-0 object-contain sm:h-36 sm:w-36"
+    />
+
+    <div className="min-w-0">
+      <p className="text-sm font-semibold text-emerald-400">
+        Your Rewards Journey
+      </p>
+
+      <h2 className="mt-1 text-xl font-bold sm:text-2xl">
+        Every Coin Counts!
+      </h2>
+
+      <p className="mt-2 text-sm leading-5 text-gray-400">
+        Keep exploring eligible activities and track your rewards
+        right here on Kivnexo.
+      </p>
+    </div>
+  </div>
+</section>
       <MobileBottomNav />
       <ReferralCoinsCard />
     </main>
