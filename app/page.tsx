@@ -503,6 +503,9 @@ export default function Home() {
           >
             <Link href="/privacy" className="hover:text-emerald-300">
               Privacy
+              <Link href="/about" className="hover:text-emerald-300">
+  About
+</Link>
             </Link>
             <Link href="/terms" className="hover:text-emerald-300">
               Terms
