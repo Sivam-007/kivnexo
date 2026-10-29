@@ -84,7 +84,19 @@ const faqs = [
 
 export default function Home() {
   return (
+    
     <main className="relative isolate min-h-screen overflow-x-clip bg-[#05080d] text-white selection:bg-emerald-400/30">
+            <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Kivnexo",
+            url: "https://kivnexo.vercel.app/",
+          }),
+        }}
+      />
       {/* Background stays behind all page content */}
       <div
         aria-hidden="true"
