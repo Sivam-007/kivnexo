@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     follow: true,
   },
 
+    verification: {
+    google: "340kURZRr6GlzTJ747K1jQWzUfGJ3xgD1yCoM95aplQ",
+  },
 other: {
   "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
   "offerwall-verification": "6ad638651c3d199193d19f2a",
