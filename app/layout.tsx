@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -30,30 +31,26 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Kivnexo" }],
   creator: "Kivnexo",
-  
   applicationName: "Kivnexo",
   appleWebApp: {
     capable: true,
     title: "Kivnexo",
     statusBarStyle: "default",
   },
-
   robots: {
     index: true,
     follow: true,
   },
-
-    verification: {
+  verification: {
     google: "340kURZRr6GlzTJ747K1jQWzUfGJ3xgD1yCoM95aplQ",
   },
-    category: "rewards",
-other: {
-  "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
-  "offerwall-verification": "6ad638651c3d199193d19f2a",
-  "clickaine-site-verification":
-    "a3380bb9e7c6220f8044d3238214d05b38590eede1250f11ef540092d6a0765046e3a4be818be95b6e0f1ff24c7a1c4349031e64edf4306dc2ba3c1e8d7ccb3d",
-},
-
+  category: "rewards",
+  other: {
+    "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
+    "offerwall-verification": "6ad638651c3d199193d19f2a",
+    "clickaine-site-verification":
+      "a3380bb9e7c6220f8044d3238214d05b38590eede1250f11ef540092d6a0765046e3a4be818be95b6e0f1ff24c7a1c4349031e64edf4306dc2ba3c1e8d7ccb3d",
+  },
 };
 
 export default function RootLayout({
@@ -66,15 +63,22 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8385982240534796"
-          crossOrigin="anonymous"
-        />
-      </head>
+      {/* Adsterra Popunder */}
+      <Script
+        src="https://abscloud.org/1/3ab3d236a708e47ba871392f18d797a6"
+        data-cfasync="false"
+        strategy="beforeInteractive"
+      />
+
       <body className="min-h-full flex flex-col">
         {children}
+
+        {/* Adsterra Social Bar */}
+        <Script
+          src="https://bauval.org/14/333587b1c40e7d55f76f7ae5204efa3a"
+          data-cfasync="false"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
