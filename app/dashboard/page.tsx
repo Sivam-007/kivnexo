@@ -9,6 +9,7 @@ import ReferralCoinsCard from "@/components/ReferralCoinsCard";
 
 export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState("");
+  const [authChecked, setAuthChecked] = useState(false);
   const [normalBalance, setNormalBalance] = useState<number | null>(null);
   const [specialBalance, setSpecialBalance] = useState<number | null>(null);
   const [walletError, setWalletError] = useState("");
@@ -52,7 +53,7 @@ const [showSpinPopup, setShowSpinPopup] = useState(false);
       }
 
       setUserEmail(userData.user.email ?? "");
-
+setAuthChecked(true);
       
 const indiaToday = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Kolkata",
@@ -297,6 +298,14 @@ const slotAngles: Record<number, number> = {
 
   const formatBalance = (balance: number | null) =>
     balance === null ? "Loading..." : `₹${balance.toFixed(2)}`;
+
+  if (!authChecked) {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[#030806] text-white">
+      <p className="text-emerald-400">Loading your Kivnexo dashboard...</p>
+    </main>
+  );
+}
 
   return (
     <main

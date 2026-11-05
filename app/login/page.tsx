@@ -1,7 +1,8 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import OfferwallBanner from "@/components/OfferwallBanner";
@@ -9,6 +10,19 @@ import OfferwallBanner from "@/components/OfferwallBanner";
 type GuideMood = "welcome" | "email" | "password" | "peek" | "success";
 
 export default function LoginPage() {
+    const router = useRouter();
+
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!error && data.session) {
+        router.replace("/dashboard");
+      }
+    };
+
+    checkExistingSession();
+  }, [router]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

@@ -1,4 +1,4 @@
-
+import HomeAuthActions from "@/components/HomeAuthActions";
 import Link from "next/link";
 import OfferwallBanner from "@/components/OfferwallBanner";
 
@@ -151,20 +151,7 @@ export default function Home() {
             </a>
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
-            <Link
-              href="/login"
-              className="inline-flex min-h-10 items-center justify-center rounded-xl px-2.5 text-sm text-zinc-200 transition hover:bg-white/5 sm:px-4"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="inline-flex min-h-10 items-center justify-center whitespace-nowrap rounded-xl bg-emerald-400 px-3 text-xs font-extrabold text-[#04100b] shadow-[0_0_25px_rgba(52,211,153,0.16)] transition hover:bg-emerald-300 sm:px-5 sm:text-sm"
-            >
-              Join Now <span className="ml-1">↗</span>
-            </Link>
-          </div>
+          <HomeAuthActions />
         </div>
 
         <nav
@@ -498,28 +485,33 @@ export default function Home() {
           </div>
 
           <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap gap-x-5 gap-y-3 text-sm text-zinc-300"
-          >
-            <Link href="/privacy" className="hover:text-emerald-300">
-              Privacy
-              <Link href="/about" className="hover:text-emerald-300">
-  About
-</Link>
-            </Link>
-            <Link href="/terms" className="hover:text-emerald-300">
-              Terms
-            </Link>
-            <Link href="/contact" className="hover:text-emerald-300">
-              Contact
-            </Link>
-            <Link href="/games" className="hover:text-emerald-300">
-              Games
-            </Link>
-            <Link href="/login" className="hover:text-emerald-300">
-              Login
-            </Link>
-          </nav>
+  aria-label="Footer navigation"
+  className="flex flex-wrap gap-x-5 gap-y-3 text-sm text-zinc-300"
+>
+  <Link href="/privacy" className="hover:text-emerald-300">
+    Privacy
+  </Link>
+
+  <Link href="/about" className="hover:text-emerald-300">
+    About
+  </Link>
+
+  <Link href="/terms" className="hover:text-emerald-300">
+    Terms
+  </Link>
+
+  <Link href="/contact" className="hover:text-emerald-300">
+    Contact
+  </Link>
+
+  <Link href="/games" className="hover:text-emerald-300">
+    Games
+  </Link>
+
+  <Link href="/login" className="hover:text-emerald-300">
+    Login
+  </Link>
+</nav>
         </div>
       </footer>
     </main>
