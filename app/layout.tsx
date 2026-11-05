@@ -63,12 +63,6 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* Adsterra Popunder */}
-      <Script
-        src="https://abscloud.org/1/3ab3d236a708e47ba871392f18d797a6"
-        data-cfasync="false"
-        strategy="beforeInteractive"
-      />
 
       <body className="min-h-full flex flex-col">
         {children}
