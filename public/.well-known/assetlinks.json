@@ -1,0 +1,15 @@
+
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kivnexo.app",
+      "sha256_cert_fingerprints": [
+        "D7:6B:5C:EC:A2:E5:97:1A:65:1C:B6:12:4A:5E:E9:D9:17:03:B2:0E:AB:ED:04:57:29:8E:AE:DD:09:3B:5F:1C"
+      ]
+    }
+  }
+]
