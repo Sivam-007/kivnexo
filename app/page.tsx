@@ -511,7 +511,24 @@ export default function Home() {
   <Link href="/login" className="hover:text-emerald-300">
     Login
   </Link>
-</nav>
+          </nav>
+
+          {/* Featured on Smol Hunt */}
+          <div className="flex items-center justify-center md:justify-end">
+            <a
+              href="https://smolhunt.com/projects/kivnexo?utm_source=badge"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Featured on Smol Hunt"
+            >
+              <img
+                src="https://smolhunt.com/smolhunt/images/badges/featured-on-light.svg"
+                alt="Featured on Smol Hunt"
+                className="h-11 w-auto"
+              />
+            </a>
+          </div>
+
         </div>
       </footer>
     </main>
