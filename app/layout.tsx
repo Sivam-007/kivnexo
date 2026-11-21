@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   category: "rewards",
   other: {
-    "monetag": "92aa4a0814101ec9f551e91da0fa29da",
+    monetag: "92aa4a0814101ec9f551e91da0fa29da",
     "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
     "offerwall-verification": "6ad638651c3d199193d19f2a",
     "clickaine-site-verification":
@@ -65,16 +65,28 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-
       <body className="min-h-full flex flex-col">
         {children}
+
         <ServiceWorkerRegister />
 
-        {/* Adsterra Social Bar */}
+        {/* Monetag In-Page Push Advertisement */}
         <Script
-          src="https://bauval.org/14/333587b1c40e7d55f76f7ae5204efa3a"
-          data-cfasync="false"
+          id="monetag-inpage-push"
           strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(s) {
+                s.dataset.zone = '12315554';
+                s.src = 'https://nap5k.com/tag.min.js';
+              })(
+                [document.documentElement, document.body]
+                  .filter(Boolean)
+                  .pop()
+                  .appendChild(document.createElement('script'))
+              );
+            `,
+          }}
         />
       </body>
     </html>
