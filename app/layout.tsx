@@ -47,6 +47,7 @@ export const metadata: Metadata = {
   },
   category: "rewards",
   other: {
+    "monetag": "92aa4a0814101ec9f551e91da0fa29da",
     "offerzono-verification": "18e84e6ec38a398567f359fd6e2f29b4",
     "offerwall-verification": "6ad638651c3d199193d19f2a",
     "clickaine-site-verification":
