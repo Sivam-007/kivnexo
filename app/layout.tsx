@@ -1,6 +1,5 @@
 
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
@@ -70,24 +69,7 @@ export default function RootLayout({
 
         <ServiceWorkerRegister />
 
-        {/* Monetag In-Page Push Advertisement */}
-        <Script
-          id="monetag-inpage-push"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(s) {
-                s.dataset.zone = '12315554';
-                s.src = 'https://nap5k.com/tag.min.js';
-              })(
-                [document.documentElement, document.body]
-                  .filter(Boolean)
-                  .pop()
-                  .appendChild(document.createElement('script'))
-              );
-            `,
-          }}
-        />
+        
       </body>
     </html>
   );

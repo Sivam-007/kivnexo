@@ -9,6 +9,7 @@ import ReferralCoinsCard from "@/components/ReferralCoinsCard";
 
 export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [normalBalance, setNormalBalance] = useState<number | null>(null);
   const [specialBalance, setSpecialBalance] = useState<number | null>(null);
@@ -317,13 +318,61 @@ const slotAngles: Record<number, number> = {
 >
       <header className="border-b border-white/10">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
-          <a href="/">
-            <img
-              src="/kivnexo-logo.png"
-              alt="Kivnexo"
-               className="block h-10 w-40 object-contain object-left"
-            />
-          </a>
+          
+<div className="flex items-center gap-2">
+  <div className="relative">
+    <button
+      type="button"
+      onClick={() => setShowMenu(!showMenu)}
+      aria-label="Open navigation menu"
+      aria-expanded={showMenu}
+      className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-2xl text-white transition hover:bg-emerald-400/10"
+    >
+      ⋮
+    </button>
+
+    {showMenu && (
+      <div className="absolute left-0 top-12 z-50 w-60 overflow-hidden rounded-xl border border-emerald-400/20 bg-[#101914] p-2 shadow-2xl">
+        <a
+          href="/contact"
+          className="block rounded-lg px-4 py-3 text-sm text-gray-200 transition hover:bg-emerald-400/10 hover:text-emerald-400"
+        >
+          Contact Us
+        </a>
+
+        <a
+          href="/refer-and-earn"
+          className="block rounded-lg px-4 py-3 text-sm text-gray-200 transition hover:bg-emerald-400/10 hover:text-emerald-400"
+        >
+          Refer & Earn
+        </a>
+
+        
+
+<a
+  href="https://docs.google.com/forms/d/e/1FAIpQLSfJZFe2lOE4OLZG5U3hgwsbV1ADSKMPwrD9uwEsaRak0eInJw/viewform"
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={() => setShowMenu(false)}
+  className="block rounded-lg px-4 py-3 text-sm text-gray-200 transition hover:bg-emerald-400/10 hover:text-emerald-400"
+>
+  Submit Your Suggestion
+</a>
+
+
+      </div>
+    )}
+  </div>
+
+  <a href="/">
+    <img
+      src="/kivnexo-logo.png"
+      alt="Kivnexo"
+      className="block h-10 w-28 object-contain object-left sm:w-40"
+    />
+  </a>
+</div>
+
 
           <button
             onClick={handleLogout}
@@ -493,7 +542,9 @@ const slotAngles: Record<number, number> = {
   </div>
 </div>
         </div>
-
+<div className="mt-8">
+  <ReferralCoinsCard />
+</div>
         <section
           id="bonus-code"
           className="mt-8 rounded-2xl border border-green-400/30 bg-black/30 backdrop-blur-sm p-6"
@@ -917,7 +968,6 @@ const slotAngles: Record<number, number> = {
   </div>
 </section>
       <MobileBottomNav />
-      <ReferralCoinsCard />
     </main>
   );
 }
